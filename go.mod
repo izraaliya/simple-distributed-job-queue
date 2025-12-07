@@ -1,6 +1,6 @@
 module jobqueue
 
-go 1.20
+go 1.23.0
 
 require (
 	github.com/graph-gophers/dataloader/v6 v6.0.0

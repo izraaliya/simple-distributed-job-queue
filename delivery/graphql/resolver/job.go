@@ -7,16 +7,16 @@ import (
 )
 
 type JobResolver struct {
-	Data       entity.Job
+	Data       *entity.Job
 	JobService _interface.JobService
 	Dataloader *_dataloader.GeneralDataloader
 }
 
+
 type JobStatusResolver struct {
-	Data       entity.JobStatus
-	JobService _interface.JobService
-	Dataloader *_dataloader.GeneralDataloader
+	Data entity.JobStatusSummary
 }
+
 
 // ID ....
 func (q JobResolver) ID() string {
@@ -30,8 +30,9 @@ func (q JobResolver) Task() string {
 
 // Status ....
 func (q JobResolver) Status() string {
-	return q.Data.Status
+	return string(q.Data.Status)
 }
+
 
 // Attempts ....
 func (q JobResolver) Attempts() int32 {

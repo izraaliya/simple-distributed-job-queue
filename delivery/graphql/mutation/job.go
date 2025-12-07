@@ -2,6 +2,7 @@ package mutation
 
 import (
 	"context"
+
 	_dataloader "jobqueue/delivery/graphql/dataloader"
 	"jobqueue/delivery/graphql/resolver"
 	_interface "jobqueue/interface"
@@ -14,8 +15,18 @@ type JobMutation struct {
 	dataloader *_dataloader.GeneralDataloader
 }
 
+// SimultaneousCreateJob / Enqueue
 func (q JobMutation) Enqueue(ctx context.Context, args entity.Job) (*resolver.JobResolver, error) {
-	job := entity.Job{}
+	jobID, err := q.jobService.Enqueue(ctx, args.Task)
+	if err != nil {
+		return nil, err
+	}
+
+	job, err := q.jobService.GetJobByID(ctx, jobID)
+	if err != nil {
+		return nil, err
+	}
+
 	return &resolver.JobResolver{
 		Data:       job,
 		JobService: q.jobService,
@@ -23,8 +34,11 @@ func (q JobMutation) Enqueue(ctx context.Context, args entity.Job) (*resolver.Jo
 	}, nil
 }
 
-// NewJobMutation to create new instance
-func NewJobMutation(jobService _interface.JobService, dataloader *_dataloader.GeneralDataloader) JobMutation {
+// constructor
+func NewJobMutation(
+	jobService _interface.JobService,
+	dataloader *_dataloader.GeneralDataloader,
+) JobMutation {
 	return JobMutation{
 		jobService: jobService,
 		dataloader: dataloader,
