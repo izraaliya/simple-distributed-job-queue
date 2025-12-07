@@ -1,6 +1,8 @@
 # Simple Distributed Job Queue Simulation
 a simple job queue system built by golang
 
+
+I am Izra Noor Zahara Aliya, and I have completed the Simple Distributed Job Queue Simulation project. The implementation is built using Go and follows a simple distributed job queue architecture with producers, workers, and queue processing logic.
 ## Requirement:
 -> Go >= 1.20
 
